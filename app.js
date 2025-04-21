@@ -9,8 +9,10 @@ console.log(process.env.MONGO_URI)
 // error handler
 const notFoundMiddleware = require('./middleware/not-found');
 const errorHandlerMiddleware = require('./middleware/error-handler');
+const { extend } = require('joi');
 
 app.use(express.json());
+app.use(express.urlencoded({extended: true}))
 // extra packages
 
 // routes
