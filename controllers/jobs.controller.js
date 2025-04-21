@@ -17,11 +17,12 @@ const updateJob = async (req, res) => {
 const deleteJob = async (req, res) => {
   res.send('delete job');
 };
-const login = async (req, res) => {
-  res.send('login user');
-};
+
 
 module.exports = {
-  register,
-  login,
+  getAllJobs,
+  getSingleJob,
+  createJob,
+  updateJob,
+  deleteJob,
 };

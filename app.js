@@ -3,7 +3,14 @@ require('express-async-errors');
 const express = require('express');
 const app = express();
 
+const authRouter = require('./routes/auth.route')
+const jobsRouter = require('./routes/jobs.route')
+
 console.log(process.env.MONGO_URI)
+
+// routes
+app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/jobs', jobsRouter)
 
 
 // error handler
