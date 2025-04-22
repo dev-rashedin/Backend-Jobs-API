@@ -4,12 +4,17 @@ require('./config/connectDB');
 const express = require('express');
 const app = express();
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+
+
+// error handler
+const notFoundMiddleware = require('./middleware/not-found');
+const errorHandlerMiddleware = require('./middleware/error-handler');
 
 const authRouter = require('./routes/auth.route')
 const jobsRouter = require('./routes/jobs.route')
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 
 // routes
@@ -17,13 +22,6 @@ app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/jobs', jobsRouter)
 
 
-// error handler
-const notFoundMiddleware = require('./middleware/not-found');
-const errorHandlerMiddleware = require('./middleware/error-handler');
-
-
-
-// extra packages
 
 // routes
 app.get('/', (req, res) => {
