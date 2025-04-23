@@ -1,3 +1,4 @@
+const { required } = require('joi');
 const mongoose = require('mongoose');
 
 const JobSchema = new mongoose.Schema({
@@ -5,13 +6,15 @@ const JobSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please provide a job title'],
     trim: true,
-    maxlength: [100, 'Job title cannot exceed 100 characters']
+    minLength: [3, 'Job title must be at least 3 characters'],
+    maxLength: [100, 'Job title cannot exceed 100 characters']
   },
   company: {
     type: String,
     required: [true, 'Please provide a company name'],
     trim: true,
-    maxlength: [100, 'Company name cannot exceed 100 characters']
+    minLength: [3, 'Company name must be at least 3 characters'],
+    maxLength: [100, 'Company name cannot exceed 100 characters']
   },
   location: {
     type: String,
@@ -20,7 +23,8 @@ const JobSchema = new mongoose.Schema({
   },
   salary: {
     type: Number,
-    default: 0
+    required: [true, 'Please provide a salary'],
+    min: [0, 'Salary cannot be negative']
   },
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
