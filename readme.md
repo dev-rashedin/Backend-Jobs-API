@@ -1,9 +1,5 @@
 
 
-#### User Model
-
-```
-
 #### Register User
 
 - Validate - name, email, password - with Mongoose
