@@ -2,6 +2,7 @@ require('dotenv').config();
 require('express-async-errors');
 require('./config/connectDB');
 const express = require('express');
+const path = require('path');
 const app = express();
 
 
@@ -15,6 +16,7 @@ const jobsRouter = require('./routes/jobs.route')
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')));
 
 
 // routes
@@ -25,7 +27,7 @@ app.use('/api/v1/jobs', jobsRouter)
 
 // routes
 app.get('/', (req, res) => {
-  res.send('jobs api');
+  res.sendFile(path.join(__dirname, 'views', 'home.html'));
 });
 
 app.use(notFoundMiddleware);
