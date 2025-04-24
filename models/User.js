@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 
 const UserSchema = new mongoose.Schema({
-  name: {
+  username: {
     type: String,
-    required: [true, 'Please provide a name'],
+    required: [true, 'Please provide a username'],
     minLength: 3,
     maxLength: 50,
   },
