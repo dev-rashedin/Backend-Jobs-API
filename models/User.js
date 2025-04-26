@@ -30,4 +30,8 @@ UserSchema.pre('save', async function () {
 })
 
 
+UserSchema.methods.getName = function () {
+  return this.username
+}
+
 module.exports = mongoose.model('User', UserSchema)

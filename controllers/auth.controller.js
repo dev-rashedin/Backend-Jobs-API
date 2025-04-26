@@ -15,7 +15,7 @@ const register = async (req, res) => {
   
   const token = jwt.sign({userId: user._id, username: user.username}, process.env.JWT_SECRET, {expiresIn: '30d'})
 
-  res.status(StatusCodes.CREATED).json({ user: { name: user.username }, token})
+  res.status(StatusCodes.CREATED).json({ user: user.getName(), token})
 }
 
 const login = async (req, res) => {
