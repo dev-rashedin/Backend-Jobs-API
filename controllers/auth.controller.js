@@ -1,6 +1,6 @@
 require('dotenv').config();
 const { StatusCodes } = require("http-status-codes")
-const User = require("../models/User");
+const User = require("../models/Users.model");
 const BadRequestError = require("../errors/bad-request");
 const jwt = require('jsonwebtoken')
 
