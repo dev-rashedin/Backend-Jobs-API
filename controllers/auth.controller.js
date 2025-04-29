@@ -2,7 +2,7 @@ require('dotenv').config();
 const { StatusCodes } = require("http-status-codes")
 const User = require("../models/Users.model");
 const BadRequestError = require("../errors/bad-request");
-const jwt = require('jsonwebtoken')
+
 
 const register = async (req, res) => {
   // const { username, email, password } = req.body;
@@ -13,7 +13,10 @@ const register = async (req, res) => {
  
   const user = await User.create({ ...req.body })
   
-  const token = jwt.sign({userId: user._id, username: user.username}, process.env.JWT_SECRET, {expiresIn: '30d'})
+  // const token = jwt.sign({userId: user._id, username: user.username}, process.env.JWT_SECRET, {expiresIn: '30d'})
+
+
+  const token = user.createJWT()
 
   res.status(StatusCodes.CREATED).json({ user: user.getName(), token})
 }
