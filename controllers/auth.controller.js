@@ -1,7 +1,6 @@
 require('dotenv').config();
 const { StatusCodes } = require("http-status-codes")
 const User = require("../models/Users.model");
-const BadRequestError = require("../errors/bad-request");
 
 
 const register = async (req, res) => {
@@ -19,10 +18,12 @@ const register = async (req, res) => {
   const token = user.createJWT()
 
   res.status(StatusCodes.CREATED).json({ user: user.getName(), token})
-}
+} 
 
 const login = async (req, res) => {
-  res.send('login user')
+  const { username, password } = req.body;
+
+  res.send('login user', { username, password })
 }
 
 module.exports = {
