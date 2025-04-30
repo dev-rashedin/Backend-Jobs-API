@@ -33,12 +33,14 @@ const login = async (req, res) => {
 
   const user = await User.findOne({ email });
 
-  res.send({
-    success: true,
-    message: 'login successful',
-    user
-  })
-}
+  if (!user) {
+    throw new UnauthenticatedError('Invalid Credentials');
+  }
+
+  const token = user.createJWT()
+  
+  res.status(StatusCodes.OK).json({ user: {name: user.getName()}, token})
+} 
 
 module.exports = {
   register, 
