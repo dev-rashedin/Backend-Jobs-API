@@ -13,6 +13,7 @@ const errorHandlerMiddleware = require('./middleware/error-handler');
 
 const authRouter = require('./routes/auth.route')
 const jobsRouter = require('./routes/jobs.route')
+const authenticateUser = require('./middleware/authentication')
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -20,8 +21,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 // routes
-app.use('/api/v1/auth', authRouter);
-app.use('/api/v1/jobs', jobsRouter)
+app.use('/api/v1/auth',  authRouter);
+app.use('/api/v1/jobs', authenticateUser, jobsRouter)
 
 
 
