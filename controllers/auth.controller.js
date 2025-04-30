@@ -1,6 +1,7 @@
 require('dotenv').config();
 const { StatusCodes } = require("http-status-codes")
 const User = require("../models/Users.model");
+const { BadRequestError, UnauthenticatedError } = require("../errors");
 
 
 const register = async (req, res) => {
@@ -21,9 +22,22 @@ const register = async (req, res) => {
 } 
 
 const login = async (req, res) => {
-  const { username, password } = req.body;
+  const { email, password } = req.body;
 
-  res.send('login user', { username, password })
+  console.log(email, password)
+  
+
+  if(!email || !password) {
+    throw new BadRequestError('Please provide email and password');
+  }
+
+  const user = await User.findOne({ email });
+
+  res.send({
+    success: true,
+    message: 'login successful',
+    user
+  })
 }
 
 module.exports = {
