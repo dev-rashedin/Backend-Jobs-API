@@ -1,35 +1,32 @@
 require('dotenv').config();
-const { StatusCodes } = require("http-status-codes")
-const User = require("../models/Users.model");
-const { BadRequestError, UnauthenticatedError } = require("../errors");
-
+const { StatusCodes } = require('http-status-codes');
+const User = require('../models/Users.model');
+const { BadRequestError, UnauthenticatedError } = require('../errors');
 
 const register = async (req, res) => {
   // const { username, email, password } = req.body;
 
   // //  if (!username || !email || !password) {
   // //    throw new BadRequestError('Please provide username, email and password');
-  // //  } 
- 
-  const user = await User.create({ ...req.body })
-  
+  // //  }
+
+  const user = await User.create({ ...req.body });
+
   // const token = jwt.sign({userId: user._id, username: user.username}, process.env.JWT_SECRET, {expiresIn: '30d'})
 
+  const token = user.createJWT();
 
-  const token = user.createJWT()
-
-  res.status(StatusCodes.CREATED).json({ user: user.getName(), token})
-} 
+  res.status(StatusCodes.CREATED).json({ user: user.getName(), token });
+};
 
 const login = async (req, res) => {
   const { email, password } = req.body;
 
-  console.log(email, password)
-  
+  console.log(email, password);
 
-  if(!email || !password) {
-    throw new BadRequestError('Please provide email and password');
-  }
+  // if (!email || !password) {
+  //   throw new BadRequestError('Please provide email and password');
+  // }
 
   const user = await User.findOne({ email });
 
@@ -37,12 +34,17 @@ const login = async (req, res) => {
     throw new UnauthenticatedError('Invalid Credentials');
   }
 
-  const token = user.createJWT()
-  
-  res.status(StatusCodes.OK).json({ user: {name: user.getName()}, token})
-} 
+  const isPasswordCorrect = await user.comparePassword(password);
+  if (!isPasswordCorrect) {
+    throw new UnauthenticatedError('Invalid Credentials');
+  }
+
+  res
+    .status(StatusCodes.OK)
+    .json({ success: true, message: 'User logged in successfully', user });
+};
 
 module.exports = {
-  register, 
-  login
-}
+  register,
+  login,
+};
