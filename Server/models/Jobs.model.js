@@ -1,19 +1,17 @@
 const mongoose = require('mongoose');
 
 const JobSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: [true, 'Please provide a job title'],
-    trim: true,
-    minLength: [3, 'Job title must be at least 3 characters'],
-    maxLength: [100, 'Job title cannot exceed 100 characters'],
-  },
+  // title: {
+  //   type: String,
+  //   required: [true, 'Please provide a job title'],
+  //   trim: true,
+  //   minLength: [3, 'Job title must be at least 3 characters'],
+  //   maxLength: [100, 'Job title cannot exceed 100 characters'],
+  // },
   company: {
     type: String,
-    required: [true, 'Please provide a company name'],
-    trim: true,
-    minLength: [3, 'Company name must be at least 3 characters'],
-    maxLength: [100, 'Company name cannot exceed 100 characters'],
+    required: [true, 'Please provide company name'],
+    maxLength: [50, 'Company name cannot exceed 100 characters'],
   },
   position: {
     type: String,
