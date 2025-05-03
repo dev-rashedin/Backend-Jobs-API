@@ -1,5 +1,4 @@
 const Job = require('../models/Jobs.model');
-const {BadRequestError, UnauthenticatedError} = require('../errors');
 const { StatusCodes } = require('http-status-codes');
 
 const getAllJobs = async (req, res) => {

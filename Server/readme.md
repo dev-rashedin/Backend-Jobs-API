@@ -30,9 +30,11 @@ Swagger UI
 
 <!-- authToken should be stored as environment variable as it is secret, if it is saved in normal variable, postman will remove it immediately -->
 
-- to run a post-response script on postman, so that you can set a variable when user logs in
+- to run a post-response script on postman, so that you can store the token as variable when user logs in
 
 ```
 const jsonData = pm.response.json();
 pm.collectionVariables.set("token", jsonData.token);
 ```
+
+- then set the a authorization --> Bearer token --> that stored token (& this one is much better)
