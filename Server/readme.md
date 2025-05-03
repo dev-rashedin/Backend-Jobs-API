@@ -19,7 +19,7 @@ Swagger UI
       description: the job id
 ```
 
- - to run a pre-request on postman, so that you don't have to set headers every time
+ - to run a pre-request script on postman, so that you don't have to set headers every time
 
  ``` 
  pm.request.headers.add({
@@ -30,3 +30,9 @@ Swagger UI
 
 <!-- authToken should be stored as environment variable as it is secret, if it is saved in normal variable, postman will remove it immediately -->
 
+- to run a post-response script on postman, so that you can set a variable when user logs in
+
+```
+const jsonData = pm.response.json();
+pm.collectionVariables.set("token", jsonData.token);
+```
