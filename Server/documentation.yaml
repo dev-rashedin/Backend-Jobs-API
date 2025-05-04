@@ -1,0 +1,118 @@
+openapi: 3.0.3
+info:
+  title: Backend Jobs API
+  description: This API allows users to manage job postings, including creating, reading, updating, and deleting job listings. It also provides features for user authentication and authorization.
+  version: 1.0.0
+  contact:
+    name: API Support
+    email: support@example.com
+    url: https://example.com/support
+servers:
+  - url: http://localhost:5000
+    description: Local development server
+  - url: https://api.example.com
+    description: Production server
+paths:
+  /jobs:
+    get:
+      summary: Get all job listings
+      description: Retrieve a list of all job postings available in the system.
+      responses:
+        '200':
+          description: A list of job postings
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Job'
+    post:
+      summary: Create a new job listing
+      description: Add a new job posting to the system.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Job'
+      responses:
+        '201':
+          description: Job created successfully
+  /jobs/{id}:
+    get:
+      summary: Get a specific job listing
+      description: Retrieve details of a specific job posting by its ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Job details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+    put:
+      summary: Update a job listing
+      description: Update the details of an existing job posting by its ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Job'
+      responses:
+        '200':
+          description: Job updated successfully
+    delete:
+      summary: Delete a job listing
+      description: Remove a job posting from the system by its ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Job deleted successfully
+components:
+  schemas:
+    Job:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the job
+        title:
+          type: string
+          description: Title of the job
+        description:
+          type: string
+          description: Detailed description of the job
+        company:
+          type: string
+          description: Name of the company offering the job
+        location:
+          type: string
+          description: Location of the job
+        salary:
+          type: number
+          description: Salary offered for the job
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the job was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the job was last updated
