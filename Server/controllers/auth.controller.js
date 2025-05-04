@@ -22,11 +22,9 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   const { email, password } = req.body;
 
-  console.log(email, password);
-
-  // if (!email || !password) {
-  //   throw new BadRequestError('Please provide email and password');
-  // }
+   if ( !email || !password) {
+     throw new BadRequestError('Please provide email and password');
+   }
 
   const user = await User.findOne({ email });
 
@@ -36,14 +34,22 @@ const login = async (req, res) => {
 
   const isPasswordCorrect = await user.comparePassword(password);
   if (!isPasswordCorrect) {
-    throw new UnauthenticatedError('Invalid Credentials');
+    throw new UnauthenticatedError(
+      'Invalid Credentials',
+      (details = 'Password is incorrect')
+    );
   }
 
   const token = user.createJWT();
 
   res
     .status(StatusCodes.OK)
-    .json({ success: true, message: 'User logged in successfully', token, user });
+    .json({
+      success: true,
+      message: 'User logged in successfully',
+      token,
+      user,
+    });
 };
 
 module.exports = {

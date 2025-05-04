@@ -1,17 +1,24 @@
 const { StatusCodes } = require("http-status-codes");
 
 const errorHandlerMiddleware = (err, req, res, next) => {
-  const status =  err.statusCode || StatusCodes.INTERNAL_SERVER_ERROR;
-  const message = err.message || 'Something went wrong';
+  let status =  err.statusCode || StatusCodes.INTERNAL_SERVER_ERROR;
+  let message = err.message || 'Something went wrong, try again later';
 
-   const response = {
-     success: false,
-     message: message,
-   };
+  if (err.code && err.code === 11000) {
+    message = `Duplicate value entered for ${Object.keys(err.keyValue)} field, please choose another value`;
+    status = StatusCodes.BAD_REQUEST
+  } 
 
-   if (err.details) {
-     response.details = err.details;
-   }
+  const response = {
+    success: false,
+    message: message,
+  };
+
+  if (err.details) {
+    response.details = err.details;
+  }
+
+
 
    res.status(status).json(response);
 }
