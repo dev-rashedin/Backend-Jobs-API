@@ -64,39 +64,71 @@ const createJob = async (req, res) => {
   });
 };
 
+/**
+ * Update an existing job
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @returns {Promise<void>} - Returns a promise that resolves to void
+ */
 const updateJob = async (req, res) => {
-   const {
-     user: { userId },
-     params: { id: jobId },
-     body: { company, position },
+  // Destructure necessary fields from request
+  const {
+    user: { userId },
+    params: { id: jobId },
+
   } = req;
   
+  // Validate input fields
   if (company === '' || position === '') {
     throw new BadRequestError('Company or Position fields cannot be empty');
   }
 
-  const job = await Job.findOneAndUpdate({ _id: jobId, createdBy: userId }, req.body, { new: true, runValidators: true })
+  // Attempt to find and update the job with new data
+  const job = await Job.findOneAndUpdate(
+    { _id: jobId, createdBy: userId },
+    req.body,
+    { new: true, runValidators: true }
+  );
   
+  // If no job is found, throw a NotFoundError
   if (!job) {
-    throw new NotFoundError(`No job with id ${jobId}`)
+    throw new NotFoundError(`No job with id ${jobId}`);
   }
   
-  res.status(StatusCodes.OK).json({ success: true, message: 'Job updated successfully', job });
+  // Send a success response with the updated job
+  res.status(StatusCodes.OK).json({
+    success: true,
+    message: 'Job updated successfully',
+    job,
+  });
 };
 
+/**
+ * Delete a job
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @returns {Promise<void>} - Returns a promise that resolves to void
+ */
 const deleteJob = async (req, res) => {
-   const {
-     user: { userId },
-     params: { id: jobId },
-   } = req;
+  // Destructure necessary fields from request
+  const {
+    user: { userId },
+    params: { id: jobId },
+  } = req;
   
-  const job = await Job.findOneAndRemove({ _id: jobId, createdBy: req.user.userId })
+  // Attempt to find and delete the job
+  const job = await Job.findOneAndRemove({ _id: jobId, createdBy: userId });
   
+  // If no job is found, throw a NotFoundError
   if (!job) {
-    throw new NotFoundError(`No job with id ${jobId}`)
+    throw new NotFoundError(`No job with id ${jobId}`);
   }
   
-  res.status(StatusCodes.OK).json({ success: true, message: 'Job deleted successfully' });
+  // Send a success response with the updated job
+  res.status(StatusCodes.OK).json({
+    success: true,
+    message: 'Job deleted successfully',
+  });
 };
 
 
