@@ -11,6 +11,11 @@ const errorHandlerMiddleware = (err, req, res, next) => {
       .join(', ');
   }
 
+  if(err.name === 'CastError') {
+    status = StatusCodes.NOT_FOUND;
+    message = `No item found with id ${err.value}`;
+  }
+
 
   if (err.code && err.code === 11000) {
     message = `Duplicate value entered for ${Object.keys(err.keyValue)} field, please choose another value`;
@@ -25,7 +30,6 @@ const errorHandlerMiddleware = (err, req, res, next) => {
   if (err.details) {
     response.details = err.details;
   }
-
 
 
    res.status(status).json(response);

@@ -2,12 +2,9 @@ const { NotFoundError, BadRequestError } = require('../errors');
 const Job = require('../models/Jobs.model');
 const { StatusCodes } = require('http-status-codes');
 
-/**
- * Fetch all jobs for a specific user
- * @param {Object} req - Express request object
- * @param {Object} res - Express response object
- * @return {Promise<Job[]>} The fetched jobs
- */
+
+  // Fetch all jobs for a specific user
+
 const getAllJobs = async (req, res) => {
   // fetch all jobs for the user
   const jobs = await Job.find({ createdBy: req.user.userId }).sort('-createdAt');
@@ -20,14 +17,7 @@ const getAllJobs = async (req, res) => {
   });
 };
 
-// fetch a single job
-/**
- * Fetch a single job by id
- * @param {Object} req - Express request object
- * @param {Object} res - Express response object
- * @param {string} jobId - The id of the job to fetch
- * @return {Promise<Job>} The fetched job
- */
+// fetch a single job 
 const getSingleJob = async (req, res) => {
   const { user: { userId }, params: { id: jobId } } = req
   
@@ -43,12 +33,8 @@ const getSingleJob = async (req, res) => {
 res.status(StatusCodes.OK).json({success: true, message: 'Job fetched successfully', job}); 
 };
 
-/**
- * Create a new job
- * @param {Object} req - Express request object
- * @param {Object} res - Express response object
- * @returns {Promise<void>} - Returns a promise that resolves to void
- */
+//  Create a new job
+
 const createJob = async (req, res) => {
   // Add the userId to the request body
   req.body.createdBy = req.user.userId;
@@ -64,12 +50,8 @@ const createJob = async (req, res) => {
   });
 };
 
-/**
- * Update an existing job
- * @param {Object} req - Express request object
- * @param {Object} res - Express response object
- * @returns {Promise<void>} - Returns a promise that resolves to void
- */
+//  Update an existing job
+
 const updateJob = async (req, res) => {
   // Destructure necessary fields from request
   const {
@@ -103,12 +85,9 @@ const updateJob = async (req, res) => {
   });
 };
 
-/**
- * Delete a job
- * @param {Object} req - Express request object
- * @param {Object} res - Express response object
- * @returns {Promise<void>} - Returns a promise that resolves to void
- */
+
+//  Delete a job
+
 const deleteJob = async (req, res) => {
   // Destructure necessary fields from request
   const {
