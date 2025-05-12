@@ -21,13 +21,19 @@ const authRouter = require('./routes/auth.route')
 const jobsRouter = require('./routes/jobs.route')
 const authenticateUser = require('./middleware/authentication')
 
+app.use(rateLimiter(
+  {
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // limit each IP to 100 requests per windowMs
+  }
+))
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(helmet());
 app.use(cors());
 app.use(xss());
-app.use(rateLimiter())
 
  
 // routes
