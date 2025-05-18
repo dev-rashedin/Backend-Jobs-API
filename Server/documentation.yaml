@@ -4,72 +4,70 @@ info:
   description: This API allows users to manage job postings, including creating, reading, updating, and deleting job listings. It also provides features for user authentication and authorization.
   version: 1.0.0
   contact:
-  externalDocs:
-    description: Find out more about Swagger
-    url: 'http://swagger.io'
-  tags:
-    - name: jobs
-      description: Operations available for job postings
-    - name: authentication
-      description: Operations available for user authentication
-  paths:
-      /api/v1/auth/register:
-      post:
-        summary: Register a new user
-        description: Create a new user account in the system.
-        requestBody:
-          required: true
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-        responses:
-          '201':
-            description: User created successfully
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/User'
-    api/v1/auth/login:
-      post:
-        summary: Log in an existing user
-        description: Log in an existing user and obtain a JWT token.
-        requestBody:
-          required: true
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-        responses:
-          '200':
-            description: User logged in successfully
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/AuthenticationResponse'
-    api/v1/jobs:
-      post:
-        summary: Create a job listing
-        description: Create a new job posting in the system.
-        requestBody:
-          required: true
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Job'
-        responses:
-          '201':
-            description: Job created successfully
-
     name: API Support
     email: support@example.com
     url: https://example.com/support
+externalDocs:
+  description: Find out more about Swagger
+  url: 'http://swagger.io'
+tags:
+  - name: jobs
+    description: Operations available for job postings
+  - name: authentication
+    description: Operations available for user authentication
 servers:
   - url: http://localhost:5000
     description: Local development server
   - url: https://api.example.com
     description: Production server
 paths:
+  /api/v1/auth/register:
+    post:
+      summary: Register a new user
+      description: Create a new user account in the system.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+  /api/v1/auth/login:
+    post:
+      summary: Log in an existing user
+      description: Log in an existing user and obtain a JWT token.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: User logged in successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthenticationResponse'
+  /api/v1/jobs:
+    post:
+      summary: Create a job listing
+      description: Create a new job posting in the system.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Job'
+      responses:
+        '201':
+          description: Job created successfully
   /jobs:
     get:
       summary: Get all job listings
@@ -173,3 +171,21 @@ components:
           type: string
           format: date-time
           description: Timestamp when the job was last updated
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+    AuthenticationResponse:
+      type: object
+      properties:
+        token:
+          type: string
+        user:
+          $ref: '#/components/schemas/User'
