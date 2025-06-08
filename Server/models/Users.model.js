@@ -34,17 +34,30 @@ UserSchema.pre('save', async function () {
 
 
 // creating custom methods
+// UserSchema.methods.getName = function () {
+//   return this.username;
+// };
+
 UserSchema.methods.getName = function () {
   return this.username;
-};
+}
 
 UserSchema.methods.createJWT = function () {
   return jwt.sign({userId: this._id, username: this.username}, process.env.JWT_SECRET, {expiresIn: process.env.JWT_LIFETIME})
 }
 
+// UserSchema.methods.createJWT = function () {
+//   return jwt.sign({userId: this._id, username: this.username}, process.env.JWT_SECRET, {expiresIn: process.env.JWT_LIFETIME})
+// }
+
 UserSchema.methods.comparePassword = async function (candidatePassword) {
   const isMatch = await bcrypt.compare(candidatePassword, this.password);
   return isMatch
 }
+
+// UserSchema.methods.comparePassword = async function (candidatePassword) {
+//   const isMatch = await bcrypt.compare(candidatePassword, this.password);
+//   return isMatch
+// }
 
 module.exports = mongoose.model('User', UserSchema)
