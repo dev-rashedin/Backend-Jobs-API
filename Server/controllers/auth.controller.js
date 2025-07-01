@@ -1,7 +1,9 @@
 require('dotenv').config();
-const { StatusCodes } = require('http-status-codes');
+const { StatusCodes, getStatusMessage } = require('http-status-toolkit-beta');
 const User = require('../models/Users.model');
 const { BadRequestError, UnauthenticatedError } = require('../errors');
+
+
 
 const register = async (req, res) => {
   // const { username, email, password } = req.body;
@@ -46,7 +48,8 @@ const login = async (req, res) => {
     .status(StatusCodes.OK)
     .json({
       success: true,
-      message: 'User logged in successfully',
+      // message: 'User logged in successfully',
+      message: getStatusMessage(StatusCodes.OK, 'detailed'),
       token,
       user,
     });
