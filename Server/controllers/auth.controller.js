@@ -1,7 +1,16 @@
 require('dotenv').config();
-const { StatusCodes, getStatusMessage } = require('http-status-toolkit-beta');
+const {
+  StatusCodes,
+  getStatusMessage,
+  BengaliStatusMessages,
+} = require('http-status-toolkit-beta');
 const User = require('../models/Users.model');
 const { BadRequestError, UnauthenticatedError } = require('../errors');
+
+// console.log(BengaliStatusMessages);
+
+console.log('bengali', getStatusMessage(StatusCodes.NOT_FOUND, 'bengali'));
+
 
 
 
