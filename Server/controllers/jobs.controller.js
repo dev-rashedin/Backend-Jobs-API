@@ -1,4 +1,4 @@
-const { NotFoundError, BadRequestError } = require('../errors');
+const { NotFoundError, BadRequestError } = require('express-error-toolkit');
 const Job = require('../models/Jobs.model');
 const { StatusCodes } = require('http-status-codes');
 
