@@ -1,6 +1,11 @@
 require('dotenv').config();
 require('express-async-errors');
 require('./config/connectDB');
+const {
+  globalErrorHandler,
+  notFoundHandler,
+} = require('express-error-toolkit');
+
 const express = require('express');
 const path = require('path');
 const app = express();
@@ -13,13 +18,10 @@ const rateLimiter = require('express-rate-limit')
 
 
 
-// error handler
-const notFoundMiddleware = require('./middleware/not-found');
-const errorHandlerMiddleware = require('./middleware/error-handler');
-
 const authRouter = require('./routes/auth.route')
 const jobsRouter = require('./routes/jobs.route')
-const authenticateUser = require('./middleware/authentication')
+const authenticateUser = require('./middleware/authentication');
+
 
 app.use(rateLimiter(
   {
@@ -47,8 +49,8 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'home.html'));
 });
 
-app.use(notFoundMiddleware);
-app.use(errorHandlerMiddleware);
+app.use(notFoundHandler);
+app.use(globalErrorHandler);
 
 const port = process.env.PORT || 3006;
 
