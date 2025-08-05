@@ -52,6 +52,8 @@ app.get('/', (req, res) => {
 app.use(notFoundHandler);
 app.use(globalErrorHandler);
 
+module.exports = app
+
 const port = process.env.PORT || 3006;
 
 const start = async () => {
