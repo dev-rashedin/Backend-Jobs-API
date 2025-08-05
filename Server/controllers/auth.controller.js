@@ -4,7 +4,7 @@ const {
   getStatusMessage,
 } = require('http-status-toolkit');
 const User = require('../models/Users.model');
-const { BadRequestError, UnauthenticatedError } = require('../errors');
+const { BadRequestError, UnauthenticatedError } = require('express-error-toolkit');
 
 
 
